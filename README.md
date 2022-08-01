@@ -1,6 +1,6 @@
 # README
 
-This repo includes scripts that are used in Termux on my Android smartphone.
+This repo includes scripts that are used in Termux on my Android smartphone, e.g. to sync files via Git.
 
 Credits: [Rene Schallner](https://github.com/renerocksai)
 

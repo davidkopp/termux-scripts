@@ -14,18 +14,19 @@ Based on his tutorial: [Syncing your Obsidian vault to Android via an encrypted 
     cp repo.conf $HOME/repo.conf
     nano $HOME/repo.conf
     ```
-3. Make the scripts executable:
+3. Make the setup script executable:
     ```sh
-    chmod +x pull.sh push.sh log.sh setup-shortcuts.sh
+    chmod +x setup-scripts.sh
     ```
-4. Setup shortcuts (relevant for Termux:Widget)
+4. Run setup script
     ```sh
-    ./setup-shortcuts.sh
+    ./setup-scripts.sh
     ```
 
 Note: Creating symlinks in the `.shortcuts` directory that link to scripts outside of the directory are not allowed anymore (see [here](https://github.com/termux/termux-widget/issues/57)).
 
 After that, after exiting termux, you can open your launcher’s widget menu, select Termux:Widget and place it on your home screen.
+You can also use Termux:Tasker to create tasks, e.g. for auto commiting and syncing.
 
 ## Git ignore file mode changes
 

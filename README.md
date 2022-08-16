@@ -25,12 +25,12 @@ Based on his tutorial: [Syncing your Obsidian vault to Android via an encrypted 
 
 Note: Creating symlinks in the `.shortcuts` directory that link to scripts outside of the directory are not allowed anymore (see [here](https://github.com/termux/termux-widget/issues/57)).
 
-After that, after exiting termux, you can open your launcher’s widget menu, select Termux:Widget and place it on your home screen.
-You can also use Termux:Tasker to create tasks, e.g. for auto commiting and syncing.
+After that, after exiting Termux, you can open your launcher’s widget menu, select Termux:Widget and place it on your home screen.
+You can also use Termux:Tasker to create tasks, e.g. for auto committing and syncing.
 
 ## Git ignore file mode changes
 
-To avoid conflicts between linux and windows, set git file mode setting to false:
+To avoid conflicts between Linux and Windows, set git file mode setting to false:
 
 ```sh
 git config core.fileMode false

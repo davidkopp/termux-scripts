@@ -6,6 +6,8 @@ Credits: [Rene Schallner](https://github.com/renerocksai)
 
 Based on his tutorial: [Syncing your Obsidian vault to Android via an encrypted GitHub repository](https://renerocks.ai/blog/obsidian-encrypted-github-android/#shortcuts-for-committing-pushing-and-pulling)
 
+Source of script `git-sync.sh`: [simonthum/git-sync](https://github.com/simonthum/git-sync)
+
 ## Setup
 
 1. Clone this repo with Termux
@@ -34,4 +36,11 @@ To avoid conflicts between Linux and Windows, set git file mode setting to false
 
 ```sh
 git config core.fileMode false
+```
+
+## Update script git-sync.sh
+
+```sh
+curl https://raw.githubusercontent.com/simonthum/git-sync/master/git-sync -o git-sync.sh
+sed -i 's/^DEFAULT_AUTOCOMMIT_MSG.*$/DEFAULT_AUTOCOMMIT_MSG=\"android on $(printf \x27%(%Y-%m-%d %H:%M:%S)T\\n\x27 -1)\"/' git-sync.sh
 ```

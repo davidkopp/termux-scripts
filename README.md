@@ -1,19 +1,19 @@
 # README
 
-This repo includes scripts that are used in Termux on my Android smartphone, e.g. to sync files via Git.
+This repo includes scripts that are used in [Termux](https://termux.dev/) on my Android devices. Termux is an Android terminal emulator and Linux environment app.
 
-Credits: [Rene Schallner](https://github.com/renerocksai)
+The main purpose is to sync my [Obsidian](https://obsidian.md/) vault between devices via Git.
 
-Based on his tutorial: [Syncing your Obsidian vault to Android via an encrypted GitHub repository](https://renerocks.ai/blog/obsidian-encrypted-github-android/#shortcuts-for-committing-pushing-and-pulling)
+The idea to use Termux for automatic syncing came from [Rene Schallner](https://github.com/renerocksai): [Syncing your Obsidian vault to Android via an encrypted GitHub repository](https://renerocks.ai/blog/obsidian-encrypted-github-android/#shortcuts-for-committing-pushing-and-pulling)
 
-Source of script `git-sync.sh`: [simonthum/git-sync](https://github.com/simonthum/git-sync)
+For syncing I'm now using the script `git-sync.sh` by Simon Thum: [simonthum/git-sync](https://github.com/simonthum/git-sync)
 
 ## Setup
 
-Note: The script `setup-git-repo.sh` makes some configurations. If you want other options, modify it before executing it.
+_Note: The script `setup-git-repo.sh` makes some configurations. If you want other options, modify it before executing it._
 
-1. Clone this repo with Termux
-2. Copy `repo.conf` to your home directory and edit it:
+1. Clone this repo with Termux to your Android device
+2. Copy `repo.conf` to your home directory and edit it to your personal needs:
     ```sh
     cp repo.conf $HOME/repo.conf
     nano $HOME/repo.conf
@@ -29,10 +29,11 @@ Note: The script `setup-git-repo.sh` makes some configurations. If you want othe
     ./setup-git-repo.sh
     ```
 
-Note: Creating symlinks in the `.shortcuts` directory that link to scripts outside of the directory are not allowed anymore (see [here](https://github.com/termux/termux-widget/issues/57)).
+_Note: Creating symlinks in the `.shortcuts` directory that link to scripts outside of the directory are not allowed anymore (see [here](https://github.com/termux/termux-widget/issues/57))._
 
-After that, after exiting Termux, you can open your launcher’s widget menu, select Termux:Widget and place it on your home screen.
-You can also use Termux:Tasker to create tasks, e.g. for auto committing and syncing.
+After exiting Termux, you can open your launcher’s widget menu, select Termux:Widget and place it on your home screen.
+To automatically commit and sync changes I use the Termux add-on [Termux:Tasker](https://github.com/termux/termux-tasker).
+As an alternative you can also setup a cronjob (see [here](https://forum.obsidian.md/t/guide-using-git-to-sync-your-obsidian-vault-on-android-devices/41887) for advice).
 
 ## Update script git-sync.sh
 

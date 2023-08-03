@@ -10,20 +10,70 @@ For syncing I'm now using the script `git-sync.sh` by Simon Thum: [simonthum/git
 
 ## Setup
 
+### Preparation
+
+-   Install required packages:
+    ```sh
+    pkg install git openssh rsync
+    ```
+-   Setup storage: [Termux-setup-storage](https://wiki.termux.com/wiki/Termux-setup-storage)
+
+### Setup SSH
+
+SSH access to Termux from your computer (optional, but makes it much easier): [Remote Access](https://wiki.termux.com/wiki/Remote_Access)
+
+If you want to use SSH for accessing your remote Git repositories, create a new key pair:
+
+```sh
+ssh-keygen -t ed25519 -C "your optional comment"
+eval "$(ssh-agent -s)" # start the ssh-agent in the background
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
+```
+
+Copy the public key to your Git remove server (GitHub, ...).
+
+### Setup git
+
+```sh
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+```
+
+Clone this repo inside Termux:
+
+```sh
+cd ~
+git clone https://github.com/davidkopp/termux-scripts.git
+```
+
+Clone repos via SSH (e.g. your Obsidian vault):
+
+```sh
+cd ~/storage/shared
+git clone git@github.com:YOUR_NAME/YOUR_REPO.git
+```
+
+The end result for me looks like that (you can choose other paths if you want):
+
+-   termux-scripts: `~/termux-scripts`
+-   Obsidian vault: `~/storage/shared/notes`
+
+### Setup sync
+
 _Note: The script `setup-git-repo.sh` makes some configurations. If you want other options, modify it before executing it._
 
-1. Clone this repo with Termux to your Android device
-2. Copy `repo.conf` to your home directory and edit it to your personal needs:
+1. Copy `repo.conf` from `termux-scripts` to the home directory inside Termux and edit it to your personal needs:
     ```sh
     cp repo.conf $HOME/repo.conf
     nano $HOME/repo.conf
     ```
-3. Make the setup scripts executable:
+2. Make the setup scripts executable:
     ```sh
     chmod +x setup-scripts.sh
     chmod +x setup-git-repo.sh
     ```
-4. Run setup scripts
+3. Run setup scripts
     ```sh
     ./setup-scripts.sh
     ./setup-git-repo.sh

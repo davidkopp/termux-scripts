@@ -81,7 +81,7 @@ _Note: The script `setup-git-repo.sh` changes some git configurations. If you wa
     ```
 2. Run setup scripts, setting `repo-path` to the relative path within ~ where the repository is checked out, and `branch` is your branch to synchronize (i.e. main or master)
     ```sh
-    ./setup-scripts.sh repo-path
+    ./setup-scripts.sh
     ./setup-git-repo.sh repo-path branch
     ```
 

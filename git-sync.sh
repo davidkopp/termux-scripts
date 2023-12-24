@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!env bash
 #
 # git-sync
 #

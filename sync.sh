@@ -10,4 +10,4 @@ GH_REPO=$1
 cd $HOME/storage/shared/$GH_REPO
 
 echo -e "Syncing repo '${PWD##*/}'...\n"
-source $HOME/termux-scripts/git-sync.sh
+exec $HOME/termux-scripts/git-sync.sh

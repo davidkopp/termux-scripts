@@ -55,7 +55,7 @@ Clone this repo inside Termux:
 
 ```sh
 cd ~
-git clone https://github.com/davidkopp/termux-scripts.git
+git clone https://github.com/abatkin/termux-scripts.git
 ```
 
 Clone repos via SSH (e.g. your Obsidian vault located at GitHub):
@@ -74,20 +74,15 @@ The end result for me looks like that (you can choose other paths if you want):
 
 _Note: The script `setup-git-repo.sh` changes some git configurations. If you want other options, modify it before executing it._
 
-1. Copy `repo.conf` from `termux-scripts` to the home directory inside Termux and edit it to your personal needs:
-    ```sh
-    cp repo.conf $HOME/repo.conf
-    nano $HOME/repo.conf
-    ```
-2. Make the setup scripts executable:
+1. Make the setup scripts executable:
     ```sh
     chmod +x setup-scripts.sh
     chmod +x setup-git-repo.sh
     ```
-3. Run setup scripts
+2. Run setup scripts, setting `repo-path` to the relative path within ~ where the repository is checked out, and `branch` is your branch to synchronize (i.e. main or master)
     ```sh
-    ./setup-scripts.sh
-    ./setup-git-repo.sh
+    ./setup-scripts.sh repo-path
+    ./setup-git-repo.sh repo-path branch
     ```
 
 _Note: Creating symlinks in the `.shortcuts` directory that link to scripts outside of the directory are not allowed anymore (see [here](https://github.com/termux/termux-widget/issues/57))._
@@ -106,6 +101,7 @@ My Tasker profile configuration (simplified):
     -   Flash with text (e.g. "Git sync")
     -   Termux:
         -   Executable: `sync.sh`
+        -   Arguments: repo-path (as above)
         -   ✔ Wait for result for commands
         -   Timeout: 30 seconds
 

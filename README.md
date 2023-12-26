@@ -12,13 +12,13 @@ For syncing I'm now using the script `git-sync.sh` by Simon Thum: [simonthum/git
 
 ### Preparation
 
--   Install [Tasker](https://tasker.joaoapps.com/download.html), [Termux](https://f-droid.org/en/packages/com.termux/), [Termux Widget](https://f-droid.org/en/packages/com.termux.widget/) and [Termux Tasker](https://f-droid.org/packages/com.termux.tasker/)
--   Inside Termux, install some required packages:
+- Install [Tasker](https://tasker.joaoapps.com/download.html), [Termux](https://f-droid.org/en/packages/com.termux/), [Termux Widget](https://f-droid.org/en/packages/com.termux.widget/) and [Termux Tasker](https://f-droid.org/packages/com.termux.tasker/)
+- Inside Termux, install some required packages:
     ```sh
     pkg update && pkg upgrade
     pkg install git openssh rsync
     ```
--   Give Termux access to your storage ([Termux-setup-storage](https://wiki.termux.com/wiki/Termux-setup-storage)):
+- Give Termux access to your storage ([Termux-setup-storage](https://wiki.termux.com/wiki/Termux-setup-storage)):
     ```sh
     termux-setup-storage
     ```
@@ -55,7 +55,7 @@ Clone this repo inside Termux:
 
 ```sh
 cd ~
-git clone https://github.com/abatkin/termux-scripts.git
+git clone https://github.com/davidkopp/termux-scripts.git
 ```
 
 Clone repos via SSH (e.g. your Obsidian vault located at GitHub):
@@ -67,8 +67,8 @@ git clone git@github.com:YOUR_NAME/YOUR_REPO.git
 
 The end result for me looks like that (you can choose other paths if you want):
 
--   termux-scripts: `~/termux-scripts`
--   Obsidian vault: `~/storage/shared/notes`
+- termux-scripts: `~/termux-scripts`
+- Obsidian vault: `~/storage/shared/notes`
 
 ### Setup sync
 
@@ -94,16 +94,16 @@ After exiting Termux, you can open your launcher’s widget menu, select Termux:
 To automatically commit and sync changes I use the Termux add-on [Termux:Tasker](https://github.com/termux/termux-tasker).
 My Tasker profile configuration (simplified):
 
--   Trigger:
-    -   Every 1h
-    -   Wifi Connected
--   Task "Git Sync":
-    -   Flash with text (e.g. "Git sync")
-    -   Termux:
-        -   Executable: `sync.sh`
-        -   Arguments: repo-path (as above)
-        -   ✔ Wait for result for commands
-        -   Timeout: 30 seconds
+- Trigger:
+    - Every 1h
+    - Wifi Connected
+- Task "Git Sync":
+    - Flash with text (e.g. "Git sync")
+    - Termux:
+        - Executable: `sync.sh`
+        - Arguments: repo-path (as above)
+        - ✔ Wait for result for commands
+        - Timeout: 30 seconds
 
 Mathis Gauthey has also published a great tutorial with some helpful screenshots: [How to Use Obsidian Git Sync on Android](https://mathisgauthey.github.io/how-to-use-obsidian-git-sync-on-android/)
 

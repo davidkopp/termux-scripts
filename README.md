@@ -98,16 +98,22 @@ After that you are finished with the setup inside of Termux. Exit Termux and ope
 
 #### Single-repo setup
 
-Set the environment variable `GH_REPO` to your local git path (e.g. `notes`, it will be appended to `~/storage/shared/`).
+Copy `repo.conf` from `termux-scripts` to the home directory inside Termux and edit it to your personal needs:
 
 ```sh
-export GH_REPO="notes"
+cp repo.conf $HOME/repo.conf
+nano $HOME/repo.conf
+```
+
+After that run the setup git script:
+
+```sh
 ./setup-git-repo.sh
 ```
 
 #### Multi-repo setup
 
-Run the setup git script and set the argument `repo-path` to the relative path within `~` where the repository is checked out, and `branch` is your branch to synchronize (i.e. main or master). If no branch is provided, `main` is used.
+Run the setup git script and provide the argument `repo-path` to the relative path within `~` where the repository is checked out. Use the second optional argument `branch` if you want to use another branch than `main` to synchronize.
 
 ```sh
 ./setup-git-repo.sh repo-path branch

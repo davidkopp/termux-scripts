@@ -8,4 +8,9 @@ elif [ -z "${GH_REPO+x}" ]; then
   exit 1
 fi
 
+if [ ! git rev-parse --git-dir > /dev/null 2>&1 ]; then
+    echo "Current directory '$PWD' is not a Git repository."
+    exit 1
+fi
+
 cd $HOME/storage/shared/$GH_REPO

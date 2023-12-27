@@ -1,4 +1,4 @@
-# README
+# Termux scripts for syncing Git repository
 
 This repo includes scripts that are used in [Termux](https://termux.dev/) on my Android devices. Termux is an Android terminal emulator and Linux environment app.
 
@@ -25,13 +25,19 @@ For syncing I'm now using the script `git-sync.sh` by Simon Thum: [simonthum/git
 
 ### Setup SSH
 
-### Accessing Termux from your computer (optional)
+#### Accessing Termux from your computer (optional)
 
 _If you set up remote access to Termux on your Android device, the following steps will be easier._
 
 [Termux Remote Access](https://wiki.termux.com/wiki/Remote_Access)
 
-### Accessing remote Git repository
+Access your Termux session (you have to change the IP address):
+
+```sh
+ssh -p 8022 192.168.0.108
+```
+
+#### Accessing remote Git repository
 
 If you want to use SSH for accessing your remote Git repositories, create a new key pair:
 
@@ -77,8 +83,7 @@ _Note: The script `setup-git-repo.sh` changes some git configurations. If you wa
 Make the scripts executable:
 
 ```sh
-chmod +x setup-scripts.sh
-chmod +x setup-git-repo.sh
+chmod +x *.sh
 ```
 
 Execute `setup-scripts`:
@@ -93,7 +98,7 @@ After that you are finished with the setup inside of Termux. Exit Termux and ope
 
 #### Single-repo setup
 
-Set the environment variable `GH_REPO` to your local git location (e.g. `notes`). It will be appended to `~/storage/shared/`.
+Set the environment variable `GH_REPO` to your local git path (e.g. `notes`, it will be appended to `~/storage/shared/`).
 
 ```sh
 export GH_REPO="notes"

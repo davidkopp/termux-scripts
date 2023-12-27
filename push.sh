@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-source go-to-repo.sh $1
+source $HOME/open-repo.sh $1
 
 printf -v date '%(%Y-%m-%d %H:%M:%S)T\n' -1
 

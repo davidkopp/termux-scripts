@@ -62,19 +62,8 @@ Clone this repo inside Termux:
 ```sh
 cd ~
 git clone https://github.com/davidkopp/termux-scripts.git
+cd termux-scripts
 ```
-
-Clone repos via SSH (e.g. your Obsidian vault located at GitHub):
-
-```sh
-cd ~/storage/shared
-git clone git@github.com:YOUR_NAME/YOUR_REPO.git
-```
-
-The end result for me looks like that (you can choose other paths if you want):
-
-- termux-scripts: `~/termux-scripts`
-- Obsidian vault: `~/storage/shared/notes`
 
 ### Setup sync
 
@@ -92,32 +81,21 @@ Execute `setup-scripts`:
 ./setup-scripts.sh
 ```
 
-If you want to only setup one git repository use the steps described under _Single-repo setup_, if you want to setup multiple git repositories use the steps described under _Multi-repo setup_.
-
-After that you are finished with the setup inside of Termux. Exit Termux and open your launcher’s widget menu, select Termux:Widget and place the respective widget on your home screen.
-
-#### Single-repo setup
-
-Copy `repo.conf` from `termux-scripts` to the home directory inside Termux and edit it to your personal needs:
+Execute the interactive script `setup-git-repo.sh` or provide some arguments (optional):
 
 ```sh
-cp repo.conf $HOME/repo.conf
-nano $HOME/repo.conf
+./setup-git-repo.sh path-to-repo branch-name
 ```
 
-After that run the setup git script:
+Example with real values:
 
 ```sh
-./setup-git-repo.sh
+./setup-git-repo.sh ~/storage/shared/git/notes main
 ```
 
-#### Multi-repo setup
+Note: If you have a multi-repo setup, you have to provide the argument `path-to-repo` to all scripts. Use the second optional argument `branch` if you want to use another branch than `main` to synchronize.
 
-Run the setup git script and provide the argument `repo-path` to the relative path within `~` where the repository is checked out. Use the second optional argument `branch` if you want to use another branch than `main` to synchronize.
-
-```sh
-./setup-git-repo.sh repo-path branch
-```
+Now you are finished with the setup inside of Termux. Exit Termux and open your launcher’s widget menu, select Termux:Widget and place the respective widget on your home screen.
 
 ### Setup automatic sync
 
@@ -131,7 +109,7 @@ My Tasker profile configuration (simplified):
     - Flash with text (e.g. "Git sync")
     - Termux:
         - Executable: `sync.sh`
-        - Arguments (multi-repo setup): repo-path (as above)
+        - Arguments (if you have a multi-repo setup): repo-path (see above)
         - ✔ Wait for result for commands
         - Timeout: 30 seconds
 

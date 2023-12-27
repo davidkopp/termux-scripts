@@ -1,14 +1,12 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-if [[ $# != 2 ]]; then
-  echo "Usage: $(basename $0) repo-path branch"
-  exit 1
+source go-to-repo.sh $1
+
+if [[ $# == 2 ]]; then
+  BRANCH_NAME=$2
+else
+  BRANCH_NAME=main
 fi
-
-GH_REPO=$1
-BRANCH_NAME=$2
-
-cd $HOME/storage/shared/$GH_REPO
 
 # To avoid conflicts between Linux and Windows, set git file mode setting to false:
 git config core.fileMode false

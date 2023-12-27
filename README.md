@@ -74,20 +74,39 @@ The end result for me looks like that (you can choose other paths if you want):
 
 _Note: The script `setup-git-repo.sh` changes some git configurations. If you want other options, modify it before executing it._
 
-1. Make the setup scripts executable:
-    ```sh
-    chmod +x setup-scripts.sh
-    chmod +x setup-git-repo.sh
-    ```
-2. Run setup scripts, setting `repo-path` to the relative path within ~ where the repository is checked out, and `branch` is your branch to synchronize (i.e. main or master)
-    ```sh
-    ./setup-scripts.sh
-    ./setup-git-repo.sh repo-path branch
-    ```
+Make the scripts executable:
 
-_Note: Creating symlinks in the `.shortcuts` directory that link to scripts outside of the directory are not allowed anymore (see [here](https://github.com/termux/termux-widget/issues/57))._
+```sh
+chmod +x setup-scripts.sh
+chmod +x setup-git-repo.sh
+```
 
-After exiting Termux, you can open your launcher’s widget menu, select Termux:Widget and place it on your home screen.
+Execute `setup-scripts`:
+
+```sh
+./setup-scripts.sh
+```
+
+If you want to only setup one git repository use the steps described under _Single-repo setup_, if you want to setup multiple git repositories use the steps described under _Multi-repo setup_.
+
+After that you are finished with the setup inside of Termux. Exit Termux and open your launcher’s widget menu, select Termux:Widget and place the respective widget on your home screen.
+
+#### Single-repo setup
+
+Set the environment variable `GH_REPO` to your local git location (e.g. `notes`). It will be appended to `~/storage/shared/`.
+
+```sh
+export GH_REPO="notes"
+./setup-git-repo.sh
+```
+
+#### Multi-repo setup
+
+Run the setup git script and set the argument `repo-path` to the relative path within `~` where the repository is checked out, and `branch` is your branch to synchronize (i.e. main or master). If no branch is provided, `main` is used.
+
+```sh
+./setup-git-repo.sh repo-path branch
+```
 
 ### Setup automatic sync
 
@@ -101,7 +120,7 @@ My Tasker profile configuration (simplified):
     - Flash with text (e.g. "Git sync")
     - Termux:
         - Executable: `sync.sh`
-        - Arguments: repo-path (as above)
+        - Arguments (multi-repo setup): repo-path (as above)
         - ✔ Wait for result for commands
         - Timeout: 30 seconds
 

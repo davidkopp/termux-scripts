@@ -1,16 +1,24 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-echo -e "Setup Git repository\n"
-
+# Define function for git clone
 gitclonecd() {
   git clone "$1"
-  if [[! $? -eq 0 ]]; then
+  if [[ ! $? -eq 0 ]]; then
     echo "Git clone of '$1' failed with error code $?!"
     exit 1
   fi
   cd "$(basename "$1" .git)"
 }
 
+BASE_REPO_PATH=~/storage/shared/git
+
+echo -e "Setup Git repository\n"
+
+# First copy required script open-repo.sh to home
+cp open-repo.sh $HOME/open-repo.sh
+chmod +x $HOME/open-repo.sh
+
+# If arguments provided, use them. Otherwise, use interactive mode
 if [[ $# > 0 ]]; then
   GIT_REPO_PATH=$1
   GIT_BRANCH_NAME=$2
@@ -20,12 +28,13 @@ else
 
   case $choice in
       1)
+          # Git clone
           if [[ -z "${GIT_REPO_URL}" ]]; then
-            echo "URL to your Git repository for cloning (will be cloned to ~/storage/shared/git/REPO_NAME):"
+            echo "Git clone URL (repo will be cloned to ${BASE_REPO_PATH}/REPO_NAME):"
             read GIT_REPO_URL
           fi
-          mkdir -p ~/storage/shared/git
-          cd ~/storage/shared/git
+          mkdir -p ${BASE_REPO_PATH}
+          cd ${BASE_REPO_PATH}
           REPO_NAME="$(basename "$GIT_REPO_URL" .git)"
           if [[ ! -d ${PWD}/${REPO_NAME} ]];
             gitclonecd ${GIT_REPO_URL}
@@ -37,6 +46,7 @@ else
           fi
           ;;
       2)
+          # Use existing local Git repository
           if [[ -z "${GIT_REPO_PATH}" ]]; then
             echo "Path to your local Git repository (full path required):"
             read GIT_REPO_PATH
@@ -54,16 +64,16 @@ else
   esac
 fi
 
-echo "Repository '${GIT_REPO_PATH}' will be used for syncing."
-# Repository is set as the default to be opened if no path is given as an argument to 'open-repo.sh'
-sed -i 's/#GIT_REPO_PATH=PATH_TO_REPO/GIT_REPO_PATH=${GIT_REPO_PATH}/' $HOME/open-repo.sh
-
+# Get branch name, default is main
 if [[ -z "${GIT_BRANCH_NAME}" ]]; then
-  echo "Branch name for syncing (default main):"
+  echo "Branch name for syncing (if none is provided, 'main' is used):"
   read GIT_BRANCH_NAME
   if [[ -z "${GIT_BRANCH_NAME}" ]]; then
     GIT_BRANCH_NAME=main
 fi
+
+# Set repository as the default so it is used if no path is given as an argument to 'open-repo.sh' when executing the other scripts
+sed -i "s/#GIT_REPO_PATH=PATH_TO_REPO/GIT_REPO_PATH=${GIT_REPO_PATH}/" $HOME/open-repo.sh
 
 # To avoid conflicts between Linux and Windows, set git file mode setting to false:
 git config core.fileMode false
@@ -76,3 +86,5 @@ git config branch.${GIT_BRANCH_NAME}.syncNewFiles true
 
 # Set commit message:
 git config branch.${GIT_BRANCH_NAME}.syncCommitMsg "android on \$(printf '%(%Y-%m-%d %H:%M:%S)T\\n' -1)"
+
+echo "Setup for syncing repository at '${GIT_REPO_PATH}' with branch '${GIT_BRANCH_NAME}' was successful!"

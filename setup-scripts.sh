@@ -1,9 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Script open-repo.sh has to be located in the home directory.
-cp open-repo.sh $HOME/open-repo.sh
-chmod +x $HOME/open-repo.sh
-
 # -- Termux:Widget --
 
 # Directory for shortcuts

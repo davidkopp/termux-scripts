@@ -2,7 +2,7 @@
 
 # -- Termux:Widget --
 
-# Create mandadory directory
+# Directory for shortcuts
 mkdir -p $HOME/.shortcuts
 chmod 700 -R $HOME/.shortcuts
 
@@ -13,7 +13,7 @@ chmod +x $HOME/.shortcuts/*.sh
 
 # -- Termux:Tasker --
 
-# Create mandadory directory
+# Directory for tasker
 mkdir -p $HOME/.termux/tasker
 chmod 700 -R $HOME/.termux
 

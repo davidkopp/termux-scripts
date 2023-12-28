@@ -1,14 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-if [[ $# != 1 ]]; then
-	echo "Usage: $(basename $0) git-path"
-	exit 1
-fi
-
-GH_REPO=$1
-
-cd $HOME/storage/shared/$GH_REPO
+source $HOME/open-repo.sh $1
 
 git log
 
+# Wait for 5 seconds
 bash -c "read -t 5 -n 1"

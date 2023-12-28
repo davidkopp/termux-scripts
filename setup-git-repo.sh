@@ -47,6 +47,7 @@ if [[ -z "${GIT_REPO_PATH}" ]]; then
           else
             GIT_REPO_PATH="${PWD}/${REPO_NAME}"
             echo "Directory ${GIT_REPO_PATH} already exists! Skip cloning of git repository ${GIT_REPO_URL}."
+            cd ${GIT_REPO_PATH}
           fi
           ;;
       2)
@@ -69,7 +70,7 @@ if [[ -z "${GIT_REPO_PATH}" ]]; then
 fi
 
 # Set repository as the default so it is used if no path is given as an argument to 'open-repo.sh' when executing the other scripts
-sed -i "s/GIT_REPO=PATH_TO_REPO/GIT_REPO_PATH=${GIT_REPO_PATH}/" $HOME/repo.conf
+sed -i "s|GIT_REPO=PATH_TO_REPO|GIT_REPO_PATH=${GIT_REPO_PATH}|" $HOME/repo.conf
 
 # Get branch name, default is main
 if [[ -z "${GIT_BRANCH_NAME}" ]]; then

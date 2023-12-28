@@ -12,7 +12,7 @@ if [[ -z "${GIT_REPO_PATH}" ]]; then
   exit 1
 fi
 
-if [[ ! -d "${GIT_REPO_PATH}" ]]; then
+if [[ ! -d ${GIT_REPO_PATH} ]]; then
   echo "Directory ${GIT_REPO_PATH} does not exist!"
   exit 1
 fi

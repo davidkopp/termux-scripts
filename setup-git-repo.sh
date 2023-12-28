@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-echo "Setup Git repository\n"
+echo -e "Setup Git repository\n"
 
 gitclonecd() {
   git clone "$1"
@@ -27,7 +27,7 @@ else
           mkdir -p ~/storage/shared/git
           cd ~/storage/shared/git
           REPO_NAME="$(basename "$GIT_REPO_URL" .git)"
-          if [[ ! -d "${PWD}/${REPO_NAME}" ]]; then
+          if [[ ! -d ${PWD}/${REPO_NAME} ]];
             gitclonecd ${GIT_REPO_URL}
             echo "Git repository cloned to: ${PWD}"
             GIT_REPO_PATH=${PWD}
@@ -41,7 +41,7 @@ else
             echo "Path to your local Git repository (full path required):"
             read GIT_REPO_PATH
           fi
-          if [[ ! -d "${GIT_REPO_PATH}" ]]; then
+          if [[ ! -d ${GIT_REPO_PATH} ]]; then
             echo "Provided git repo path '${GIT_REPO_PATH}' does not exist!"
             exit 1
           fi

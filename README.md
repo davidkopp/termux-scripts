@@ -31,7 +31,13 @@ _If you set up remote access to Termux on your Android device, the following ste
 
 [Termux Remote Access](https://wiki.termux.com/wiki/Remote_Access)
 
-Access your Termux session (you have to change the IP address):
+Start OpenSSH server in Termux:
+
+```sh
+sshd
+```
+
+Access your Termux session from another device (change the IP address to the address of your device, e.g. use `ifconfig`):
 
 ```sh
 ssh -p 8022 192.168.0.108

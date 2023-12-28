@@ -23,6 +23,8 @@ cp open-repo.sh $HOME/open-repo.sh
 chmod +x $HOME/open-repo.sh
 if [[ ! -d $HOME/repo.conf ]]; then
   cp repo.conf $HOME/repo.conf
+elif grep -q "GH_REPO" $HOME/repo.conf; then
+  echo "Warning: File '$HOME/repo.conf' is using an outdated format! Consider deleting it and rerun this script!"
 fi
 
 # Ensure git check if directory is safe is disabled, because in Termux we have a shared environment!

@@ -21,7 +21,7 @@ echo -e "Setup Git repository\n"
 # First copy the required files to home
 cp open-repo.sh $HOME/open-repo.sh
 chmod +x $HOME/open-repo.sh
-if [[ ! -d ${$HOME/repo.conf} ]]; then
+if [[ ! -d $HOME/repo.conf ]]; then
   cp repo.conf $HOME/repo.conf
 fi
 
@@ -40,7 +40,7 @@ if [[ -z "${GIT_REPO_PATH}" ]]; then
           mkdir -p ${BASE_REPO_PATH}
           cd ${BASE_REPO_PATH}
           REPO_NAME="$(basename "$GIT_REPO_URL" .git)"
-          if [[ ! -d ${PWD}/${REPO_NAME} ]];
+          if [[ ! -d ${PWD}/${REPO_NAME} ]]; then
             gitclonecd ${GIT_REPO_URL}
             echo "Git repository cloned to: ${PWD}"
             GIT_REPO_PATH=${PWD}
@@ -68,16 +68,21 @@ if [[ -z "${GIT_REPO_PATH}" ]]; then
   esac
 fi
 
+# Set repository as the default so it is used if no path is given as an argument to 'open-repo.sh' when executing the other scripts
+sed -i "s/GIT_REPO=PATH_TO_REPO/GIT_REPO_PATH=${GIT_REPO_PATH}/" $HOME/repo.conf
+
 # Get branch name, default is main
 if [[ -z "${GIT_BRANCH_NAME}" ]]; then
   echo "Branch name for syncing (if none is provided, 'main' is used):"
   read GIT_BRANCH_NAME
   if [[ -z "${GIT_BRANCH_NAME}" ]]; then
     GIT_BRANCH_NAME=main
+  fi
+  if [[ ! `git branch --list ${GIT_BRANCH_NAME}` ]]; then
+    echo "Git branch ${GIT_BRANCH_NAME} does not exist!"
+    exit 1
+  fi
 fi
-
-# Set repository as the default so it is used if no path is given as an argument to 'open-repo.sh' when executing the other scripts
-sed -i "s/GIT_REPO=PATH_TO_REPO/GIT_REPO_PATH=${GIT_REPO_PATH}/" $HOME/repo.conf
 
 # To avoid conflicts between Linux and Windows, set git file mode setting to false:
 git config core.fileMode false
@@ -91,4 +96,4 @@ git config branch.${GIT_BRANCH_NAME}.syncNewFiles true
 # Set commit message:
 git config branch.${GIT_BRANCH_NAME}.syncCommitMsg "android on \$(printf '%(%Y-%m-%d %H:%M:%S)T\\n' -1)"
 
-echo "Setup for syncing repository at '${GIT_REPO_PATH}' with branch '${GIT_BRANCH_NAME}' was successful!"
+echo "Setup git repository for syncing at '${GIT_REPO_PATH}' with branch '${GIT_BRANCH_NAME}' was successful!"

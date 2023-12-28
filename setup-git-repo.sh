@@ -25,6 +25,9 @@ if [[ ! -d $HOME/repo.conf ]]; then
   cp repo.conf $HOME/repo.conf
 fi
 
+# Ensure git check if directory is safe is disabled, because in Termux we have a shared environment!
+git config --global safe.directory '*'
+
 # Use interactive mode if no repo path was provided via argument
 if [[ -z "${GIT_REPO_PATH}" ]]; then
   echo "Do you want to clone a new repository (1) or provide a path to an already existing git repository on your device (2)?"
@@ -70,7 +73,7 @@ if [[ -z "${GIT_REPO_PATH}" ]]; then
 fi
 
 # Set repository as the default so it is used if no path is given as an argument to 'open-repo.sh' when executing the other scripts
-sed -i "s|GIT_REPO=PATH_TO_REPO|GIT_REPO_PATH=${GIT_REPO_PATH}|" $HOME/repo.conf
+sed -i "s|GIT_REPO_PATH=PATH_TO_REPO|GIT_REPO_PATH=${GIT_REPO_PATH}|" $HOME/repo.conf
 
 # Get branch name, default is main
 if [[ -z "${GIT_BRANCH_NAME}" ]]; then

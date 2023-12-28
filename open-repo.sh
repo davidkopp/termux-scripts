@@ -19,7 +19,7 @@ fi
 
 cd ${GIT_REPO_PATH}
 
-if [[ ! git rev-parse --git-dir > /dev/null 2>&1 ]]; then
+if [[ ! -d "$(git rev-parse --git-dir 2>/dev/null)" ]]; then
   echo "Directory '${PWD}' is not a Git repository!"
   exit 1
 fi

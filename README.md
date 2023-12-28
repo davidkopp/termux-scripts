@@ -75,13 +75,21 @@ Make the scripts executable:
 chmod +x *.sh
 ```
 
-Execute `setup-scripts`:
+Execute `setup-scripts` to copy all required scripts to the correct locations:
 
 ```sh
 ./setup-scripts.sh
 ```
 
-Execute the interactive script `setup-git-repo.sh` or provide some arguments (optional):
+The script `setup-git-repo.sh` sets up a Git repository for syncing. Either execute it without arguments in interactive mode or provide arguments for non-interactive execution.
+
+Interactive:
+
+```sh
+./setup-git-repo.sh
+```
+
+Use existing git repo at provided path (`path-to-repo` must be an absolute path required, `branch-name` is optional, default is `main`):
 
 ```sh
 ./setup-git-repo.sh path-to-repo branch-name
@@ -92,8 +100,6 @@ Example with real values:
 ```sh
 ./setup-git-repo.sh ~/storage/shared/git/notes main
 ```
-
-Note: If you have a multi-repo setup, you have to provide the argument `path-to-repo` to all scripts. Use the second optional argument `branch` if you want to use another branch than `main` to synchronize.
 
 Now you are finished with the setup inside of Termux. Exit Termux and open your launcher’s widget menu, select Termux:Widget and place the respective widget on your home screen.
 

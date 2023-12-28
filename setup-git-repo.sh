@@ -3,14 +3,19 @@
 echo "Setup Git repository\n"
 
 gitclonecd() {
-  git clone "$1" && cd "$(basename "$1" .git)"
+  git clone "$1"
+  if [[! $? -eq 0 ]]; then
+    echo "Git clone of '$1' failed with error code $?!"
+    exit 1
+  fi
+  cd "$(basename "$1" .git)"
 }
 
 if [[ $# > 0 ]]; then
   GIT_REPO_PATH=$1
   GIT_BRANCH_NAME=$2
 else
-  echo "Do you want to clone a new repository (1) or provide a path to an already existing git repository (2)?"
+  echo "Do you want to clone a new repository (1) or provide a path to an already existing git repository on your device (2)?"
   read -p "Enter your choice (1 or 2): " choice
 
   case $choice in
@@ -21,14 +26,24 @@ else
           fi
           mkdir -p ~/storage/shared/git
           cd ~/storage/shared/git
-          gitclonecd ${GIT_REPO_URL}
-          echo "Git repository cloned to: ${PWD}"
-          GIT_REPO_PATH=${PWD}
+          REPO_NAME="$(basename "$GIT_REPO_URL" .git)"
+          if [[ ! -d "${PWD}/${REPO_NAME}" ]]; then
+            gitclonecd ${GIT_REPO_URL}
+            echo "Git repository cloned to: ${PWD}"
+            GIT_REPO_PATH=${PWD}
+          else
+            GIT_REPO_PATH="${PWD}/${REPO_NAME}"
+            echo "Directory ${GIT_REPO_PATH} already exists! Skip cloning of git repository ${GIT_REPO_URL}."
+          fi
           ;;
       2)
           if [[ -z "${GIT_REPO_PATH}" ]]; then
             echo "Path to your local Git repository (full path required):"
             read GIT_REPO_PATH
+          fi
+          if [[ ! -d "${GIT_REPO_PATH}" ]]; then
+            echo "Provided git repo path '${GIT_REPO_PATH}' does not exist!"
+            exit 1
           fi
           cd ${GIT_REPO_PATH}
           ;;
@@ -39,8 +54,8 @@ else
   esac
 fi
 
-echo "Repository '${GIT_REPO_PATH}' will be the default repo for syncing."
-# Define the repository as the default to be opened if no path is given as an argument to 'open-repo.sh'
+echo "Repository '${GIT_REPO_PATH}' will be used for syncing."
+# Repository is set as the default to be opened if no path is given as an argument to 'open-repo.sh'
 sed -i 's/#GIT_REPO_PATH=PATH_TO_REPO/GIT_REPO_PATH=${GIT_REPO_PATH}/' $HOME/open-repo.sh
 
 if [[ -z "${GIT_BRANCH_NAME}" ]]; then

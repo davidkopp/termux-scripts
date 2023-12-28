@@ -1,5 +1,11 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
+BASE_REPO_PATH=~/storage/shared/git
+if [[ $# > 0 ]]; then
+  GIT_REPO_PATH=$1
+  GIT_BRANCH_NAME=$2
+fi
+
 # Define function for git clone
 gitclonecd() {
   git clone "$1"
@@ -10,19 +16,17 @@ gitclonecd() {
   cd "$(basename "$1" .git)"
 }
 
-BASE_REPO_PATH=~/storage/shared/git
-
 echo -e "Setup Git repository\n"
 
-# First copy required script open-repo.sh to home
+# First copy the required files to home
 cp open-repo.sh $HOME/open-repo.sh
 chmod +x $HOME/open-repo.sh
+if [[ ! -d ${$HOME/repo.conf} ]]; then
+  cp repo.conf $HOME/repo.conf
+fi
 
-# If arguments provided, use them. Otherwise, use interactive mode
-if [[ $# > 0 ]]; then
-  GIT_REPO_PATH=$1
-  GIT_BRANCH_NAME=$2
-else
+# Use interactive mode if no repo path was provided via argument
+if [[ -z "${GIT_REPO_PATH}" ]]; then
   echo "Do you want to clone a new repository (1) or provide a path to an already existing git repository on your device (2)?"
   read -p "Enter your choice (1 or 2): " choice
 
@@ -73,7 +77,7 @@ if [[ -z "${GIT_BRANCH_NAME}" ]]; then
 fi
 
 # Set repository as the default so it is used if no path is given as an argument to 'open-repo.sh' when executing the other scripts
-sed -i "s/#GIT_REPO_PATH=PATH_TO_REPO/GIT_REPO_PATH=${GIT_REPO_PATH}/" $HOME/open-repo.sh
+sed -i "s/GIT_REPO=PATH_TO_REPO/GIT_REPO_PATH=${GIT_REPO_PATH}/" $HOME/repo.conf
 
 # To avoid conflicts between Linux and Windows, set git file mode setting to false:
 git config core.fileMode false

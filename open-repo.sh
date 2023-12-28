@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Variable 'GIT_REPO_PATH' will be set by 'setup-git-repo.sh' or by providing an argument (e.g. `open-repo.sh ~/storage/shared/git/notes`)
-#GIT_REPO_PATH=PATH_TO_REPO
+# Variable 'GIT_REPO_PATH' will be set by $HOME/repo.conf or by providing an argument (e.g. `open-repo.sh ~/storage/shared/git/notes`)
+source $HOME/repo.conf
 
 if [[ -n "$1" ]]; then
   GIT_REPO_PATH=$1

@@ -1,4 +1,4 @@
-# Termux scripts for syncing Git repository
+# Termux scripts for syncing Git repositories
 
 This repo includes scripts that are used in [Termux](https://termux.dev/) on my Android devices. Termux is an Android terminal emulator and Linux environment app.
 

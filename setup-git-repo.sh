@@ -17,8 +17,6 @@ gitclonecd() {
 cp open-repo.sh $HOME/open-repo.sh
 chmod +x $HOME/open-repo.sh
 
-echo -e "Setup Git repository\n"
-
 if [[ -e "$HOME/repo.conf" ]]; then
   # If repo.conf already exists, try to use it → single-repo setup
   echo 'Config file '$HOME/repo.conf' already exists. Try to use it ...'

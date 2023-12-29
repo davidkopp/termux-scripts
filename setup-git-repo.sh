@@ -82,12 +82,12 @@ else
   if [[ -z "${GIT_BRANCH_NAME}" ]]; then
     echo -e "\nWhich branch do you want to use for syncing? (if none is provided, 'main' is used)"
     read GIT_BRANCH_NAME
-    if [[ -z "${GIT_BRANCH_NAME}" ]]; then
-      GIT_BRANCH_NAME=main
-    fi
   fi
 fi
 
+if [[ -z "${GIT_BRANCH_NAME}" ]]; then
+  GIT_BRANCH_NAME=main
+fi
 if [[ ! `git branch --list ${GIT_BRANCH_NAME}` ]]; then
   echo "Git branch '${GIT_BRANCH_NAME}' does not exist!"
   exit 1

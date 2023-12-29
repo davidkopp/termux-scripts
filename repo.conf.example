@@ -1,0 +1,10 @@
+### Configuration for syncing a single git repository ###
+
+# This file has to be placed in your home directory.
+# The copying to your home directory is part of the script setup-git-repo.sh.
+
+# The variable GIT_REPO_PATH is mandatory in a single-repo git setup.
+# It must be set to the absolute path to your local Git repository.
+# It gets set by executing setup-git-repo.sh.
+# Full path required, e.g. ~/storage/shared/git/notes
+GIT_REPO_PATH=PATH_TO_REPO

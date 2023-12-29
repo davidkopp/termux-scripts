@@ -22,7 +22,7 @@ echo -e "Setup Git repository\n"
 cp open-repo.sh $HOME/open-repo.sh
 chmod +x $HOME/open-repo.sh
 if [[ ! -d $HOME/repo.conf ]]; then
-  cp repo.conf $HOME/repo.conf
+  cp repo.conf.example $HOME/repo.conf
 elif grep -q "GH_REPO" $HOME/repo.conf; then
   echo "Warning: File '$HOME/repo.conf' is using an outdated format! Consider deleting it and rerun this script!"
 fi

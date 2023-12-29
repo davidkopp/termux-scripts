@@ -7,4 +7,4 @@
 # It must be set to the absolute path to your local Git repository.
 # It gets set by executing setup-git-repo.sh.
 # Full path required, e.g. ~/storage/shared/git/notes
-GIT_REPO_PATH=PATH_TO_REPO
+GIT_REPO_PATH=

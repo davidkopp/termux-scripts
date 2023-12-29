@@ -3,18 +3,10 @@
 # Default path used for cloning a new repository
 BASE_PATH_FOR_REPO_CLONING=~/storage/shared/git
 
-# Define function for git clone
-gitclonecd() {
-  git clone "$1"
-  if [[ ! $? -eq 0 ]]; then
-    echo "Git clone of '$1' failed with error code $?!"
-    exit 1
-  fi
-  cd "$(basename "$1" .git)"
-}
+SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # First copy the latest version of open-repo.sh to home
-cp open-repo.sh $HOME/open-repo.sh
+cp "$SCRIPTS_DIR/open-repo.sh" "$HOME/open-repo.sh"
 chmod +x $HOME/open-repo.sh
 
 if [[ -e "$HOME/repo.conf" ]]; then
@@ -43,13 +35,16 @@ else
           mkdir -p ${BASE_PATH_FOR_REPO_CLONING}
           cd ${BASE_PATH_FOR_REPO_CLONING}
           REPO_NAME="$(basename "$GIT_REPO_URL" .git)"
-          if [[ ! -d ${PWD}/${REPO_NAME} ]]; then
-            gitclonecd ${GIT_REPO_URL}
-            echo "Git repository cloned to: ${PWD}"
-            GIT_REPO_PATH=${PWD}
-          else
-            GIT_REPO_PATH="${PWD}/${REPO_NAME}"
+          GIT_REPO_PATH="${PWD}/${REPO_NAME}"
+          if [[ -d $GIT_REPO_PATH ]]; then
             echo "Directory ${GIT_REPO_PATH} already exists! Skip cloning of git repository ${GIT_REPO_URL}."
+          else
+            git clone "$GIT_REPO_URL"
+            if [[ ! $? -eq 0 ]]; then
+              echo "Git clone of '$GIT_REPO_URL' failed with error code $?!"
+              exit 1
+            fi
+            echo "Git repository cloned to: ${GIT_REPO_PATH}"
           fi
           ;;
       2)
@@ -70,7 +65,7 @@ else
   esac
 
   # Create config file for single-repo setup
-  cp repo.conf.example $HOME/repo.conf
+  cp "${SCRIPTS_DIR}/repo.conf.example" "$HOME/repo.conf"
   sed -i "s|GIT_REPO_PATH=|GIT_REPO_PATH=${GIT_REPO_PATH}|" $HOME/repo.conf
 
   # Try to open repo

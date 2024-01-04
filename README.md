@@ -87,19 +87,41 @@ Execute `setup-scripts` to copy all required scripts to the correct locations:
 ./setup-scripts.sh
 ```
 
-The script `setup-git-repo.sh` sets up a Git repository for syncing. Either execute it without arguments in interactive mode or provide arguments for non-interactive execution.
+The script `setup-git-repo.sh` sets up a Git repository for syncing.
 
-Interactive:
+**Single-repo setup:**
 
-```sh
-./setup-git-repo.sh
-```
+Single-repo setup means that you only have one Git repository that you want to sync. The path to the repo gets stored in the config file `repo.conf` in your home directory.
 
-Use existing git repo at provided path (`path-to-repo` must be an absolute path required, `branch-name` is optional, default is `main`):
+- Either prepare the config file `repo.conf` in your home directory (change `PLACE_HERE_THE_PATH` to the actual path to your git repo):
+
+  ```sh
+  cp repo.conf.example $HOME/repo.conf
+  sed -i "s|GIT_REPO_PATH=|GIT_REPO_PATH=PLACE_HERE_THE_PATH|" $HOME/repo.conf
+  ./setup-git-repo.sh
+  ```
+
+- Or use interactive mode:
+
+  ```sh
+  ./setup-git-repo.sh
+  ```
+
+Now you are finished with the setup inside of Termux. Exit Termux and open your launcher’s widget menu, select Termux:Widget and place the respective widget on your home screen.
+
+**Multi-repo setup:**
+
+Multi-repo setup means that you have multiple Git repository that you want to sync.
+The path to the respective repository must be provided as an argument for each script later on (e.g. `sync.sh ~/storage/shared/git/notes`).
+There must be no file `repo.conf` in your home directory, otherwise the path configured in the file will be used instead!
+For setting up a git repository in a multi-repo setup, provide the path to the git repo as an argument to the script:
 
 ```sh
 ./setup-git-repo.sh path-to-repo branch-name
 ```
+
+`path-to-repo` must be an absolute path.
+`branch-name` is optional, default branch is `main`.
 
 Example with real values:
 

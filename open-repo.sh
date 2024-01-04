@@ -2,14 +2,15 @@
 
 # Variable 'GIT_REPO_PATH' must be set either by providing it via $HOME/repo.conf or by providing it as an argument to this script (e.g. `open-repo.sh ~/storage/shared/git/notes`)
 if [[ -e "$HOME/repo.conf" ]]; then
-  source $HOME/repo.conf
+  # shellcheck source=repo.conf.example
+  source "$HOME/repo.conf"
   if [[ -z "${GIT_REPO_PATH}" ]]; then
-    echo 'Config file '$HOME/repo.conf' exists, but mandatory variable GIT_REPO_PATH is not set!'
+    echo 'Config file '"$HOME"/repo.conf' exists, but mandatory variable GIT_REPO_PATH is not set!'
     exit 1
   fi
 else
   if [[ $# != 1 ]]; then
-    echo "Path to Git repository not provided! Usage: $(basename $0) git-path"
+    echo "Path to Git repository not provided! Usage: $(basename "$0") git-path"
     exit 1
   fi
   GIT_REPO_PATH=$1
@@ -20,7 +21,7 @@ if [[ ! -d ${GIT_REPO_PATH} ]]; then
   exit 1
 fi
 
-cd ${GIT_REPO_PATH}
+cd "${GIT_REPO_PATH}" || echo "cd into git dir failed!" && exit 1
 
 if [[ ! -d "$(git rev-parse --git-dir 2>/dev/null)" ]]; then
   echo "Provided path '${PWD}' is not a Git repository!"

@@ -1,0 +1,7 @@
+external-sources=true
+
+# Don't suggest read without -r will mangle backslashes
+disable=SC2162
+
+# Don't suggest can't follow non-constant source
+disable=SC1090

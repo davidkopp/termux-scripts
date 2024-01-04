@@ -1,1 +1,5 @@
 repo.conf
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json

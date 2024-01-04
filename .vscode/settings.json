@@ -1,0 +1,5 @@
+{
+    "shellcheck.ignorePatterns": {
+        "**/git-sync.sh": true
+    }
+}

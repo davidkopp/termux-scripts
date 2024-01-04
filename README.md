@@ -150,9 +150,3 @@ My Tasker profile configuration (simplified):
 Mathis Gauthey has also published a great tutorial with some helpful screenshots: [How to Use Obsidian Git Sync on Android](https://mathisgauthey.github.io/how-to-use-obsidian-git-sync-on-android/)
 
 As an alternative you can also setup a cronjob (see [here](https://forum.obsidian.md/t/guide-using-git-to-sync-your-obsidian-vault-on-android-devices/41887) for advice).
-
-## Update script git-sync.sh
-
-```sh
-curl https://raw.githubusercontent.com/simonthum/git-sync/master/git-sync -o git-sync.sh
-```

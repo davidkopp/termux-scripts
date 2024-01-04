@@ -1,12 +1,23 @@
 # Termux scripts for syncing Git repositories
 
-This repo includes scripts that are used in [Termux](https://termux.dev/) on my Android devices. Termux is an Android terminal emulator and Linux environment app.
+This repo includes scripts that are used with [Termux](https://termux.dev/) on my Android devices. Termux is an Android terminal emulator and Linux environment app.
 
 The main purpose is to sync my [Obsidian](https://obsidian.md/) vault between devices via Git.
 
 The idea to use Termux for automatic syncing came from [Rene Schallner](https://github.com/renerocksai): [Syncing your Obsidian vault to Android via an encrypted GitHub repository](https://renerocks.ai/blog/obsidian-encrypted-github-android/#shortcuts-for-committing-pushing-and-pulling)
 
 For syncing I'm now using the script `git-sync.sh` by Simon Thum: [simonthum/git-sync](https://github.com/simonthum/git-sync)
+
+## Why use Termux?
+
+There are many ways to sync git repositories with Android devices. However, in my experience, this setup with git inside the Termux environment is the most flexible and reliable.
+
+Alternatives:
+
+- Obsidian community plugin [Obsidian Git](https://github.com/denolehov/obsidian-git): Great on desktop, but the mobile version has some [limitations](https://github.com/denolehov/obsidian-git#mobile) that make it a bad choice for me.
+- Android app [MGit](https://github.com/maks/MGit/): No auto-sync in the background possible, has problems with storage permissions (see [issue 620](https://github.com/maks/MGit/issues/620)).
+- Android app [GitJournal](https://github.com/GitJournal/GitJournal): No auto-sync in the background possible.
+- [Syncthing](https://syncthing.net/): Generally a great solution for syncing! However, in my opinion you shouldn't use Syncthing to sync a Git repository. Also, I don't like having a file synced multiple times in the background while I'm editing it.
 
 ## Setup
 

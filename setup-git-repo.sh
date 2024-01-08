@@ -44,7 +44,7 @@ else
             read GIT_REPO_URL
           fi
           mkdir -p ${BASE_PATH_FOR_REPO_CLONING}
-          cd ${BASE_PATH_FOR_REPO_CLONING} || echo "cd ${BASE_PATH_FOR_REPO_CLONING} failed!" && exit 1
+          cd ${BASE_PATH_FOR_REPO_CLONING} || (echo "cd ${BASE_PATH_FOR_REPO_CLONING} failed!" && exit 1)
           REPO_NAME="$(basename "$GIT_REPO_URL" .git)"
           GIT_REPO_PATH="${PWD}/${REPO_NAME}"
           if [[ -d $GIT_REPO_PATH ]]; then

@@ -62,12 +62,14 @@ else
           # Use an existing local Git repository
           if [[ -z "${GIT_REPO_PATH}" ]]; then
             echo "Path to your local Git repository (full path required):"
-            read GIT_REPO_PATH
+            read path_to_repo
           fi
-          if [[ ! -d ${GIT_REPO_PATH} ]]; then
-            echo "Provided git repo path '${GIT_REPO_PATH}' does not exist!"
+          canonical_path_to_repo=$(readlink -f "$path_to_repo")
+          if [[ ! -d "${canonical_path_to_repo}" ]]; then
+            echo "Provided git repo path '${canonical_path_to_repo}' does not exist!"
             exit 1
           fi
+          GIT_REPO_PATH=$canonical_path_to_repo
           ;;
       *)
           echo "Invalid choice. Please enter 1 or 2."

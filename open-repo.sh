@@ -16,16 +16,17 @@ else
   GIT_REPO_PATH=$1
 fi
 
-if [[ ! -d "${GIT_REPO_PATH}" ]]; then
-  echo "Provided path '${GIT_REPO_PATH}' does not exist!"
+canonical_path_to_repo=$(readlink -f "$GIT_REPO_PATH")
+if [[ ! -d "${canonical_path_to_repo}" ]]; then
+  echo "Provided path '${canonical_path_to_repo}' does not exist!"
   exit 1
 fi
 
-cd "${GIT_REPO_PATH}" || (echo "cd into git dir failed!" && exit 1)
+cd "${canonical_path_to_repo}" || (echo "cd into git dir failed!" && exit 1)
 
 if [[ ! -d "$(git rev-parse --git-dir 2>/dev/null)" ]]; then
   echo "Provided path '${PWD}' is not a Git repository!"
   exit 1
 fi
 
-echo "Using git repository at ${GIT_REPO_PATH}"
+echo "Using git repository at ${canonical_path_to_repo}"

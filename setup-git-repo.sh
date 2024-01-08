@@ -22,7 +22,7 @@ elif [[ $# -gt 0 ]]; then
   GIT_REPO_PATH=$1
   GIT_BRANCH_NAME=$2
   # shellcheck source=open-repo.sh
-  source "$HOME/open-repo.sh ${GIT_REPO_PATH}"
+  source "$HOME/open-repo.sh" "${GIT_REPO_PATH}"
 else
   # If config file '$HOME/repo.conf' doesn't exist and no arguments are provided, ask the user what to do → single-repo setup
   echo "Do you want to clone a new repository (1) or provide a path to an already existing git repository on your device (2)?"

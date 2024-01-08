@@ -9,7 +9,7 @@ chmod 700 -R "$HOME/.shortcuts"
 # Copy scripts
 rsync -a --include='log.sh' --include='status.sh' --include='pull.sh' --include='push.sh' --include='sync.sh' --exclude '*' "$HOME/termux-scripts/" "$HOME/.shortcuts"
 
-chmod +x "$HOME/.shortcuts/*.sh"
+chmod +x "$HOME"/.shortcuts/*.sh
 
 # -- Termux:Tasker --
 
@@ -20,4 +20,4 @@ chmod 700 -R "$HOME/.termux"
 # Copy scripts
 rsync -a --include='log.sh' --include='status.sh' --include='pull.sh' --include='push.sh' --include='sync.sh' --exclude '*' "$HOME/termux-scripts/" "$HOME/.termux/tasker"
 
-chmod +x "$HOME/.termux/tasker/*.sh"
+chmod +x "$HOME"/.termux/tasker/*.sh

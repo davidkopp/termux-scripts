@@ -16,13 +16,21 @@ if [[ -e "$HOME/repo.conf" ]]; then
     echo 'Warning: File '"$HOME"/repo.conf' is using an outdated format! Consider deleting it and rerun this script!'
   fi
   # shellcheck source=open-repo.sh
-  source "$HOME/open-repo.sh"
+  if ! source "$HOME/open-repo.sh"
+  then
+      echo "Open repo failed!"
+      exit 1
+  fi
 elif [[ $# -gt 0 ]]; then
   # If arguments are provided, use them → multi-repo setup
   GIT_REPO_PATH=$1
   GIT_BRANCH_NAME=$2
   # shellcheck source=open-repo.sh
-  source "$HOME/open-repo.sh" "${GIT_REPO_PATH}"
+  if ! source "$HOME/open-repo.sh" "${GIT_REPO_PATH}"
+  then
+    echo "Open repo '${GIT_REPO_PATH}' failed!"
+    exit 1
+  fi
 else
   # If config file '$HOME/repo.conf' doesn't exist and no arguments are provided, ask the user what to do → single-repo setup
   echo "Do you want to clone a new repository (1) or provide a path to an already existing git repository on your device (2)?"

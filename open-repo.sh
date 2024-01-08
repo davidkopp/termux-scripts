@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 # Variable 'GIT_REPO_PATH' must be set either by providing it via $HOME/repo.conf or by providing it as an argument to this script (e.g. `open-repo.sh ~/storage/shared/git/notes`)
-if [[ -e $HOME/repo.conf ]]; then
+if [[ -e "$HOME/repo.conf" ]]; then
   # shellcheck source=repo.conf.example
   source "$HOME/repo.conf"
   if [[ -z "${GIT_REPO_PATH}" ]]; then

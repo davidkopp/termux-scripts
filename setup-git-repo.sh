@@ -64,7 +64,7 @@ else
             echo "Path to your local Git repository (full path required):"
             read path_to_repo
           fi
-          canonical_path_to_repo=$(readlink -f "$path_to_repo")
+          canonical_path_to_repo=$(readlink -f "${path_to_repo/\~/$HOME}")
           if [[ ! -d "${canonical_path_to_repo}" ]]; then
             echo "Provided git repo path '${canonical_path_to_repo}' does not exist!"
             exit 1

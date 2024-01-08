@@ -16,7 +16,7 @@ else
   GIT_REPO_PATH=$1
 fi
 
-canonical_path_to_repo=$(readlink -f "$GIT_REPO_PATH")
+canonical_path_to_repo=$(readlink -f "${GIT_REPO_PATH/\~/$HOME}")
 if [[ ! -d "${canonical_path_to_repo}" ]]; then
   echo "Provided path '${canonical_path_to_repo}' does not exist!"
   exit 1

@@ -1,6 +1,14 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-source "$HOME/open-repo.sh" "$1"
+if ! source "$HOME/open-repo.sh" "$1"
+then
+    echo "Open repo failed!"
+    read -n 1 -s -r -t 10 -p "Press any key to exit"
+fi
 
 echo -e "Syncing repo '${PWD##*/}'...\n"
-exec "$HOME/termux-scripts/git-sync.sh"
+if ! exec "$HOME/termux-scripts/git-sync.sh"
+then
+    echo "Git sync failed with error code $?!"
+    read -n 1 -s -r -t 10 -p "Press any key to exit"
+fi

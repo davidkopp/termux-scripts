@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 # Default path used for cloning a new repository
-BASE_PATH_FOR_REPO_CLONING=~/storage/shared/git
+BASE_PATH_FOR_REPO_CLONING="$HOME/storage/shared/git"
 
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -39,14 +39,15 @@ else
   case $choice in
       1)
           # Clone a new git repository
+          canonical_base_path=$(readlink -f "${BASE_PATH_FOR_REPO_CLONING}")
           if [[ -z "${GIT_REPO_URL}" ]]; then
-            echo "Git clone URL (repo will be cloned to ${BASE_PATH_FOR_REPO_CLONING}/REPO_NAME):"
+            echo "Git clone URL (repo will be cloned to ${canonical_base_path}/REPO_NAME):"
             read GIT_REPO_URL
           fi
-          mkdir -p ${BASE_PATH_FOR_REPO_CLONING}
-          cd ${BASE_PATH_FOR_REPO_CLONING} || (echo "cd ${BASE_PATH_FOR_REPO_CLONING} failed!" && exit 1)
+          mkdir -p "${canonical_base_path}"
+          cd "${canonical_base_path}" || (echo "cd ${canonical_base_path} failed!" && exit 1)
           REPO_NAME="$(basename "$GIT_REPO_URL" .git)"
-          GIT_REPO_PATH="${PWD}/${REPO_NAME}"
+          GIT_REPO_PATH=$(readlink -f "${PWD}/${REPO_NAME}")
           if [[ -d $GIT_REPO_PATH ]]; then
             echo "Directory ${GIT_REPO_PATH} already exists! Skip cloning of git repository ${GIT_REPO_URL}."
           else

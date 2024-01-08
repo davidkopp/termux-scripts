@@ -13,7 +13,8 @@ if [[ -e "$HOME/repo.conf" ]]; then
   # If repo.conf already exists, try to use it → single-repo setup
   echo 'Config file '"$HOME"/repo.conf' already exists. Try to use it ...'
   if grep -q "GH_REPO" "$HOME/repo.conf"; then
-    echo 'Warning: File '"$HOME"/repo.conf' is using an outdated format! Consider deleting it and rerun this script!'
+    echo 'Warning: File '"$HOME"/repo.conf' is using an outdated format! Consider deleting it ("rm ~/repo.conf") and rerun this script!'
+    exit 1
   fi
   # shellcheck source=open-repo.sh
   if ! source "$HOME/open-repo.sh"

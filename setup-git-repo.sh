@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 # Default path used for cloning a new repository
-BASE_PATH_FOR_REPO_CLONING=~/storage/shared/git
+BASE_PATH_FOR_REPO_CLONING="$HOME/storage/shared/git"
 
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -13,16 +13,25 @@ if [[ -e "$HOME/repo.conf" ]]; then
   # If repo.conf already exists, try to use it → single-repo setup
   echo 'Config file '"$HOME"/repo.conf' already exists. Try to use it ...'
   if grep -q "GH_REPO" "$HOME/repo.conf"; then
-    echo 'Warning: File '"$HOME"/repo.conf' is using an outdated format! Consider deleting it and rerun this script!'
+    echo 'Warning: File '"$HOME"/repo.conf' is using an outdated format! Consider deleting it ("rm ~/repo.conf") and rerun this script!'
+    exit 1
   fi
   # shellcheck source=open-repo.sh
-  source "$HOME/open-repo.sh"
+  if ! source "$HOME/open-repo.sh"
+  then
+      echo "Open repo failed!"
+      exit 1
+  fi
 elif [[ $# -gt 0 ]]; then
   # If arguments are provided, use them → multi-repo setup
   GIT_REPO_PATH=$1
   GIT_BRANCH_NAME=$2
   # shellcheck source=open-repo.sh
-  source "$HOME/open-repo.sh ${GIT_REPO_PATH}"
+  if ! source "$HOME/open-repo.sh" "${GIT_REPO_PATH}"
+  then
+    echo "Open repo '${GIT_REPO_PATH}' failed!"
+    exit 1
+  fi
 else
   # If config file '$HOME/repo.conf' doesn't exist and no arguments are provided, ask the user what to do → single-repo setup
   echo "Do you want to clone a new repository (1) or provide a path to an already existing git repository on your device (2)?"
@@ -30,16 +39,18 @@ else
   case $choice in
       1)
           # Clone a new git repository
+          canonical_base_path=$(readlink -f "${BASE_PATH_FOR_REPO_CLONING}")
           if [[ -z "${GIT_REPO_URL}" ]]; then
-            echo "Git clone URL (repo will be cloned to ${BASE_PATH_FOR_REPO_CLONING}/REPO_NAME):"
+            echo "Git clone URL (repo will be cloned to '${canonical_base_path}/REPO_NAME'):"
             read GIT_REPO_URL
           fi
-          mkdir -p ${BASE_PATH_FOR_REPO_CLONING}
-          cd ${BASE_PATH_FOR_REPO_CLONING} || echo "cd ${BASE_PATH_FOR_REPO_CLONING} failed!" && exit 1
+          echo ""
+          mkdir -p "${canonical_base_path}"
+          cd "${canonical_base_path}" || (echo "cd ${canonical_base_path} failed!" && exit 1)
           REPO_NAME="$(basename "$GIT_REPO_URL" .git)"
-          GIT_REPO_PATH="${PWD}/${REPO_NAME}"
+          GIT_REPO_PATH=$(readlink -f "${PWD}/${REPO_NAME}")
           if [[ -d $GIT_REPO_PATH ]]; then
-            echo "Directory ${GIT_REPO_PATH} already exists! Skip cloning of git repository ${GIT_REPO_URL}."
+            echo "Directory '${GIT_REPO_PATH}' already exists! Skip cloning of git repository ${GIT_REPO_URL}. Try to use existing directory instead."
           else
             if ! git clone "$GIT_REPO_URL"
             then
@@ -53,12 +64,14 @@ else
           # Use an existing local Git repository
           if [[ -z "${GIT_REPO_PATH}" ]]; then
             echo "Path to your local Git repository (full path required):"
-            read GIT_REPO_PATH
+            read path_to_repo
           fi
-          if [[ ! -d ${GIT_REPO_PATH} ]]; then
-            echo "Provided git repo path '${GIT_REPO_PATH}' does not exist!"
+          canonical_path_to_repo=$(readlink -f "${path_to_repo/\~/$HOME}")
+          if [[ ! -d "${canonical_path_to_repo}" ]]; then
+            echo "Provided git repo path '${canonical_path_to_repo}' does not exist!"
             exit 1
           fi
+          GIT_REPO_PATH=$canonical_path_to_repo
           ;;
       *)
           echo "Invalid choice. Please enter 1 or 2."

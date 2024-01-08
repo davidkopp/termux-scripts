@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-01-08
+
+- many bug fixes related to using and checking the path to a git repo
+
 ## 2023-12-28
 
 Breaking changes:

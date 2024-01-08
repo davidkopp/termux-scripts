@@ -41,15 +41,16 @@ else
           # Clone a new git repository
           canonical_base_path=$(readlink -f "${BASE_PATH_FOR_REPO_CLONING}")
           if [[ -z "${GIT_REPO_URL}" ]]; then
-            echo "Git clone URL (repo will be cloned to ${canonical_base_path}/REPO_NAME):"
+            echo "Git clone URL (repo will be cloned to '${canonical_base_path}/REPO_NAME'):"
             read GIT_REPO_URL
           fi
+          echo ""
           mkdir -p "${canonical_base_path}"
           cd "${canonical_base_path}" || (echo "cd ${canonical_base_path} failed!" && exit 1)
           REPO_NAME="$(basename "$GIT_REPO_URL" .git)"
           GIT_REPO_PATH=$(readlink -f "${PWD}/${REPO_NAME}")
           if [[ -d $GIT_REPO_PATH ]]; then
-            echo "Directory ${GIT_REPO_PATH} already exists! Skip cloning of git repository ${GIT_REPO_URL}."
+            echo "Directory '${GIT_REPO_PATH}' already exists! Skip cloning of git repository ${GIT_REPO_URL}. Try to use existing directory instead."
           else
             if ! git clone "$GIT_REPO_URL"
             then

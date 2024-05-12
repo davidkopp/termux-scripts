@@ -10,7 +10,9 @@ elif [[ -e "$HOME/repo.conf" ]]; then
     echo 'Config file '"$HOME"/repo.conf' exists, but mandatory variable GIT_REPO_PATH is not set!'
     exit 1
   fi
-else
+fi
+
+if [[ -z "${GIT_REPO_PATH}" ]]; then
   echo "Path to Git repository not provided! Usage: $(basename "$0") git-path"
   exit 1
 fi

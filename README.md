@@ -122,10 +122,9 @@ Now you are finished with the setup inside of Termux. Exit Termux and open your 
 
 **Multi-repo setup:**
 
-Multi-repo setup means that you have multiple Git repository that you want to sync.
-The path to the respective repository must be provided as an argument for each script later on (e.g. `sync.sh ~/storage/shared/git/notes`).
-There must be no file `repo.conf` in your home directory, otherwise the path configured in the file will be used instead!
-For setting up a git repository in a multi-repo setup, provide the path to the git repo as an argument to the script:
+Multi-repo setup means that you have multiple Git repositories that you want to sync.
+The path to a single repository must be provided as an argument for each script later on (e.g. `sync.sh ~/storage/shared/git/notes`).
+For setting up a git repository in a multi-repo setup, provide the path to the git repo as an argument to the setup script:
 
 ```sh
 ./setup-git-repo.sh path-to-repo branch-name
@@ -145,7 +144,8 @@ Now you are finished with the setup inside of Termux. Exit Termux and open your 
 ### Setup automatic sync
 
 To automatically commit and sync changes I use the Termux add-on [Termux:Tasker](https://github.com/termux/termux-tasker).
-My Tasker profile configuration (simplified):
+
+Tasker profile configuration (simplified):
 
 - Trigger:
     - Every 1h

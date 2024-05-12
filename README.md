@@ -1,8 +1,8 @@
 # Termux scripts for syncing Git repositories
 
-This repo includes scripts that are used with [Termux](https://termux.dev/) on my Android devices. Termux is an Android terminal emulator and Linux environment app.
+This repo includes scripts to simplify the setup of syncing Git repositories on Android devices using [Termux](https://termux.dev/). Termux is an Android terminal emulator and Linux environment app.
 
-The main purpose is to sync my [Obsidian](https://obsidian.md/) vault between devices via Git.
+The original purpose for me was to auto-sync my [Obsidian](https://obsidian.md/) vault between devices with Git.
 
 The idea to use Termux for automatic syncing came from [Rene Schallner](https://github.com/renerocksai): [Syncing your Obsidian vault to Android via an encrypted GitHub repository](https://renerocks.ai/blog/obsidian-encrypted-github-android/#shortcuts-for-committing-pushing-and-pulling)
 
@@ -84,62 +84,78 @@ cd termux-scripts
 
 ### Setup sync
 
-_Note: The script `setup-git-repo.sh` changes some git configurations. If you want other options, modify it before executing it._
+_Note: During the setup some changes are made to your git configuration. If you want other options, modify the script 'configure-git.sh'._
 
-Make the scripts executable:
+First ensure that all scripts are executable:
 
 ```sh
 chmod +x *.sh
 ```
 
-Execute `setup-scripts` to copy all required scripts to the correct locations:
+You can choose between the three different ways of setting up your repository/repositories:
+
+- Interactive mode (`setup-interactive.sh`)
+  - provides the possibility to clone a Git repository
+  - can also be used if a local Git repository already exists
+  - can be used for both, single-repo setup and multi-repo setup
+- Single-repo setup (`setup-single-repo.sh`)
+  - Git repository has to already exist locally
+  - path to this single repo is stored in a config file called `repo.conf` in your home directory
+- Multi-repo setup (`setup-multi-repo.sh`)
+  - Git repository has to already exist locally
+  - no central config file, path to the respective repository must be provided as an argument for each script later on (e.g. `sync.sh ~/storage/shared/git/notes`)
+
+#### Single-repo setup
+
+Single-repo setup means that you only have one Git repository that you want to sync. The path to this single repo is stored in a config file called `repo.conf` in your home directory.
+
+You can either use an interactive mode (`setup-interactive.sh`) or directly provide the required parameters as arguments to the script `setup-single-repo.sh`.
 
 ```sh
-./setup-scripts.sh
+./setup-single-repo.sh path-to-repo branch-name
 ```
 
-The script `setup-git-repo.sh` sets up a Git repository for syncing.
+Arguments:
 
-**Single-repo setup:**
-
-Single-repo setup means that you only have one Git repository that you want to sync. The path to the repo gets stored in the config file `repo.conf` in your home directory.
-
-- Either prepare the config file `repo.conf` in your home directory (change `PLACE_HERE_THE_PATH` to the actual path to your git repo):
-
-  ```sh
-  cp repo.conf.example $HOME/repo.conf
-  sed -i "s|GIT_REPO_PATH=|GIT_REPO_PATH=PLACE_HERE_THE_PATH|" $HOME/repo.conf
-  ./setup-git-repo.sh
-  ```
-
-- Or use interactive mode:
-
-  ```sh
-  ./setup-git-repo.sh
-  ```
-
-Now you are finished with the setup inside of Termux. Exit Termux and open your launcher’s widget menu, select Termux:Widget and place the respective widget on your home screen.
-
-**Multi-repo setup:**
-
-Multi-repo setup means that you have multiple Git repositories that you want to sync.
-The path to a single repository must be provided as an argument for each script later on (e.g. `sync.sh ~/storage/shared/git/notes`).
-For setting up a git repository in a multi-repo setup, provide the path to the git repo as an argument to the setup script:
-
-```sh
-./setup-git-repo.sh path-to-repo branch-name
-```
-
-`path-to-repo` must be an absolute path.
-`branch-name` is optional, default branch is `main`.
+- `path-to-repo`: local path to git repo (required)
+- `branch-name`: git branch name (optional, default "main")
 
 Example with real values:
 
 ```sh
-./setup-git-repo.sh ~/storage/shared/git/notes main
+./setup-single-repo.sh ~/storage/shared/git/notes main
 ```
 
-Now you are finished with the setup inside of Termux. Exit Termux and open your launcher’s widget menu, select Termux:Widget and place the respective widget on your home screen.
+Now you are done with the setup in Termux.
+
+You can now open your launcher's widget menu, select Termux:Widget and place the widget for a script on your home screen. If you want to setup automatic sync for a repository see the section [Setup automatic sync](#setup-automatic-sync) below.
+
+#### Multi-repo setup
+
+Multi-repo setup means that you have multiple Git repositories that you want to sync.
+The path to a single repository must be provided as an argument for each script later on (e.g. `sync.sh ~/storage/shared/git/notes`).
+
+You can either use an interactive mode (`setup-interactive.sh`) or directly provide the required parameters as arguments to the script `setup-multi-repo.sh`.
+
+```sh
+./setup-multi-repo.sh path-to-repo branch-name repo-name
+```
+
+Arguments:
+
+- `path-to-repo`: local path to git repo (required)
+- `branch-name`: git branch name (optional, default "main")
+- `repo-name`: name used as a suffix for script names (optional, if not provided the name of the repo is used)
+
+Example with real values:
+
+```sh
+./setup-multi-repo.sh ~/storage/shared/git/notes main notes
+```
+
+Now you are done with the setup of one repository. If you want to setup another repository, just repeat the same steps and provide a different path to the script.
+
+You can now open your launcher's widget menu, select Termux:Widget and place the widget for a script on your home screen. If you want to setup automatic sync for a repository see the section [Setup automatic sync](#setup-automatic-sync) below.
 
 ### Setup automatic sync
 
@@ -154,7 +170,7 @@ Tasker profile configuration (simplified):
     - Flash with text (e.g. "Git sync")
     - Termux:
         - Executable: `sync.sh`
-        - Arguments (if you have a multi-repo setup): repo-path (see above)
+        - Arguments (not used anymore, was used in the past to provide a path in a multi-repo setup)
         - ✔ Wait for result for commands
         - Timeout: 30 seconds
 

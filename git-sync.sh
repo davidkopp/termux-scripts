@@ -148,12 +148,12 @@ check_initial_file_state()
     local syncNew="$(git config --get --bool branch.$branch_name.syncNewFiles)"
     if [[ "true" == "$syncNew" || "true" == "$sync_new_files_anyway" ]]; then
 	# allow for new files
-	if [ ! -z "$(git status --porcelain | grep -E '^[^ \?][^M\?] *')" ]; then
+	if [ -n "$(git status --porcelain | grep -E '^[^ \?][^M\?] *')" ]; then
 	    echo "NonNewOrModified"
 	fi
     else
 	# also bail on new files
-	if [ ! -z "$(git status --porcelain | grep -E '^[^ ][^M] *')" ]; then
+	if [ -n "$(git status --porcelain | grep -E '^[^ ][^M] *')" ]; then
 	    echo "NotOnlyModified"
 	fi
     fi
@@ -163,7 +163,7 @@ check_initial_file_state()
 # used to decide if autocommit should be invoked
 local_changes()
 {
-    if [ ! -z "$(git status --porcelain | grep -E '^(\?\?|[MARC] |[ MARC][MD])*')" ]; then
+    if [ -n "$(git status --porcelain | grep -E '^(\?\?|[MARC] |[ MARC][MD])*')" ]; then
 	echo "LocalChanges"
     fi
 }
@@ -288,7 +288,7 @@ __log_msg "Mode $mode"
 __log_msg "Using $remote_name/$branch_name"
 
 # check for intentionally unhandled file states
-if [ ! -z "$(check_initial_file_state)" ] ; then
+if [ -n "$(check_initial_file_state)" ] ; then
     __log_msg "There are changed files you should probably handle manually."
     git status
     exit 1
@@ -301,12 +301,12 @@ if [ $mode == "check" ] ; then
 fi
 
 # check if we have to commit local changes, if yes, do so
-if [ ! -z "$(local_changes)" ]; then
+if [ -n "$(local_changes)" ]; then
     autocommit_cmd=""
     config_autocommit_cmd="$(git config --get branch.$branch_name.autocommitscript)"
 
     # discern the three ways to auto-commit
-    if [ ! -z "$config_autocommit_cmd" ]; then
+    if [ -n "$config_autocommit_cmd" ]; then
 	autocommit_cmd="$config_autocommit_cmd"
     elif [[ "true" == "$(git config --get --bool branch.$branch_name.syncNewFiles)" || "true" == "$sync_new_files_anyway" ]]; then
 	autocommit_cmd=${ALL_AUTOCOMMIT_CMD}
@@ -325,7 +325,7 @@ if [ ! -z "$(local_changes)" ]; then
 
     # after autocommit, we should be clean
     rstate="$(git_repo_state)"
-    if [[ ! -z "$rstate" ]]; then
+    if [[ -n "$rstate" ]]; then
 	__log_msg "Auto-commit left uncommitted changes. Please add or remove them as desired and retry."
 	exit 1
     fi

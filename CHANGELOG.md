@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2024-05-12
 
-- fix: use multi repo setup if arguments are provided
+- big refactoring of the setup scripts: now three different scripts are provided you can choose from
 
 ## 2024-01-08
 

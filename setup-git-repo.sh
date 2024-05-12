@@ -9,7 +9,17 @@ SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cp "$SCRIPTS_DIR/open-repo.sh" "$HOME/open-repo.sh"
 chmod +x "$HOME/open-repo.sh"
 
-if [[ -e "$HOME/repo.conf" ]]; then
+if [[ $# -gt 0 ]]; then
+  # If arguments are provided, use them → multi-repo setup
+  GIT_REPO_PATH=$1
+  GIT_BRANCH_NAME=$2
+  # shellcheck source=open-repo.sh
+  if ! source "$HOME/open-repo.sh" "${GIT_REPO_PATH}"
+  then
+    echo "Open repo '${GIT_REPO_PATH}' failed!"
+    exit 1
+  fi
+elif [[ -e "$HOME/repo.conf" ]]; then
   # If repo.conf already exists, try to use it → single-repo setup
   echo 'Config file '"$HOME"/repo.conf' already exists. Try to use it ...'
   if grep -q "GH_REPO" "$HOME/repo.conf"; then
@@ -21,16 +31,6 @@ if [[ -e "$HOME/repo.conf" ]]; then
   then
       echo "Open repo failed!"
       exit 1
-  fi
-elif [[ $# -gt 0 ]]; then
-  # If arguments are provided, use them → multi-repo setup
-  GIT_REPO_PATH=$1
-  GIT_BRANCH_NAME=$2
-  # shellcheck source=open-repo.sh
-  if ! source "$HOME/open-repo.sh" "${GIT_REPO_PATH}"
-  then
-    echo "Open repo '${GIT_REPO_PATH}' failed!"
-    exit 1
   fi
 else
   # If config file '$HOME/repo.conf' doesn't exist and no arguments are provided, ask the user what to do → single-repo setup

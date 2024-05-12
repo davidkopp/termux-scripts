@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-05-12
+
+- fix: use multi repo setup if arguments are provided
+
 ## 2024-01-08
 
 - many bug fixes related to using and checking the path to a git repo

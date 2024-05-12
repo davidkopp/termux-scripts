@@ -1,7 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 # Variable 'GIT_REPO_PATH' must be set either by providing it via $HOME/repo.conf or by providing it as an argument to this script (e.g. `open-repo.sh ~/storage/shared/git/notes`)
-if [[ -e "$HOME/repo.conf" ]]; then
+if [[ $# -gt 0 ]]; then
+  GIT_REPO_PATH=$1
+elif [[ -e "$HOME/repo.conf" ]]; then
   # shellcheck source=repo.conf.example
   source "$HOME/repo.conf"
   if [[ -z "${GIT_REPO_PATH}" ]]; then
@@ -9,11 +11,8 @@ if [[ -e "$HOME/repo.conf" ]]; then
     exit 1
   fi
 else
-  if [[ $# != 1 ]]; then
-    echo "Path to Git repository not provided! Usage: $(basename "$0") git-path"
-    exit 1
-  fi
-  GIT_REPO_PATH=$1
+  echo "Path to Git repository not provided! Usage: $(basename "$0") git-path"
+  exit 1
 fi
 
 canonical_path_to_repo=$(readlink -f "${GIT_REPO_PATH/\~/$HOME}")

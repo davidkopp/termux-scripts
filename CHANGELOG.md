@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## 2024-05-12
 
-- big refactoring of the setup scripts: now three different scripts are provided you can choose from
+Big refactoring of the setup scripts: now three different scripts are provided you can choose from.
+
+Breaking change:
+In a multi-repo setup the scripts get renamed using the name of the git repo (e.g. `sync.sh` -> `sync_notes.sh`). Therefore the widgets and tasks inside of Tasker may have to be modified accordingly.
+There should be no breaking change in a single-repo setup.
 
 ## 2024-01-08
 

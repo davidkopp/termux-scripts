@@ -60,7 +60,7 @@ chmod +x "$HOME"/.shortcuts/*.sh
 
 mkdir -p "$HOME/.termux/tasker"
 chmod 700 -R "$HOME/.termux"
-rsync -r "$MY_DIR/temp/" "$HOME/.termux/"
+rsync -r "$MY_DIR/temp/" "$HOME/.termux/tasker/"
 chmod +x "$HOME"/.termux/tasker/*.sh
 
 cd "$MY_DIR" || exit 1

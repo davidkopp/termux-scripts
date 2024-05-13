@@ -60,14 +60,13 @@ source "$MY_DIR/configure-git.sh"
 # Setup scripts for Termux:Widget
 mkdir -p "$HOME/.shortcuts"
 chmod 700 -R "$HOME/.shortcuts"
-rsync -r "$MY_DIR/scripts/" "$HOME/.shortcuts"
+rsync -r "$MY_DIR/scripts/" "$HOME/.shortcuts/"
 chmod +x "$HOME"/.shortcuts/*.sh
 
 # Setup scripts for Termux:Tasker
 mkdir -p "$HOME/.termux/tasker"
 chmod 700 -R "$HOME/.termux"
-rsync -r "$MY_DIR/scripts/" "$HOME/.termux"
-chmod +x "$HOME"/.termux/*.sh
+rsync -r "$MY_DIR/scripts/" "$HOME/.termux/tasker/"
 chmod +x "$HOME"/.termux/tasker/*.sh
 
 REPO_NAME=$(basename "$GIT_REPO_PATH")

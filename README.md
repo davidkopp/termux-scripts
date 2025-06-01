@@ -93,14 +93,14 @@ git clone https://github.com/davidkopp/termux-scripts.git
 cd termux-scripts
 ```
 
-### Setup git worktree
+### Setup git-worktree
 
 We need to use the shared storage so Android apps will be able to access the folder. However, using the shared storage has also some disadvantages. See the Termux Wiki page [Internal and external storage](https://wiki.termux.com/wiki/Internal_and_external_storage) for more information.
 I personally had the issue that Git was only able to execute one command on a git repository located on the shared storage and the following commands failed with an error
 
 > Unable to read current working directory: No such file or directory
 
-A solution is to use a Git worktree. That means we place the git repository in the local Termux storage without a worktree (only the `.git` folder) and place the worktree in the shared storage.
+A solution is to use [git-worktree](https://git-scm.com/docs/git-worktree). That means we place the git repository in the local Termux storage as a bare repository and place the worktree in the shared storage.
 
 The script `setup-interactive.sh` can set up everything for you.
 Here are the relevant commands that can be used to set it up manually:
@@ -117,7 +117,7 @@ Here are the relevant commands that can be used to set it up manually:
   git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
   ```
 
-- Add worktree in detached mode (we don't want to create a new branch):
+- Add git-worktree in detached mode (we don't want to create a new branch):
 
   ```sh
   # specify a path in shared storage where you want to store your worktree

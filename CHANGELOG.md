@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2025-06-01
+
+Use [git-worktree](https://git-scm.com/docs/git-worktree) to be able to place the git repository in the local Termux storage and the worktree in the shared storage. This avoid filesystem issues using Git.
+To be able to use this new feature I recommend to run the script `setup-interactive.sh" and clone the repository/repositories again.
+
 ## 2024-05-12
 
 Big refactoring of the setup scripts: now three different scripts are provided you can choose from.

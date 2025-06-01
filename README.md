@@ -25,11 +25,22 @@ Alternatives:
 
 - Install [Tasker](https://tasker.joaoapps.com/download.html), [Termux](https://f-droid.org/en/packages/com.termux/), [Termux Widget](https://f-droid.org/en/packages/com.termux.widget/) and [Termux Tasker](https://f-droid.org/packages/com.termux.tasker/)
 - Inside Termux, install some required packages:
+
     ```sh
     pkg update && pkg upgrade
     pkg install git openssh rsync
     ```
+
+- Install an editor of your choice. See [available text editors in Termux](https://wiki.termux.com/wiki/Text_Editors). We use nano here as the default:
+
+    ```sh
+    pkg install nano
+    ```
+
+    If you don't want to use nano, you have to change the default editor for Git in `configure-git.sh`. If you want to customize nano you can find [here a how-to for Termux](https://github.com/SignsAriyo/How-To-Customize-the-Nano-Editor-on-Termux).
+
 - Give Termux access to your storage ([Termux-setup-storage](https://wiki.termux.com/wiki/Termux-setup-storage)):
+
     ```sh
     termux-setup-storage
     ```

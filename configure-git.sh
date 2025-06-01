@@ -1,12 +1,15 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Ensure git check if directory is safe is disabled, because in Termux we have a shared environment!
+# Ensure check if directory is safe is disabled, because in Termux we have a shared environment!
 git config --global safe.directory '*'
+
+# Set nano as default editor
+git config --global core.editor "nano"
 
 # To avoid conflicts between Linux and Windows, set git file mode setting to false:
 git config core.fileMode false
 
-#Configure branch `main` for sync:
+# Configure branch `main` for sync:
 git config "branch.${GIT_BRANCH_NAME}.sync" true
 
 # Automatically add new (untracked) files and sync them:

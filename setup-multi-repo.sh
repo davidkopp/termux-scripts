@@ -6,15 +6,15 @@
 # $3: repo name (optional, default extracted repo name, used as a suffix for script names)
 
 GIT_REPO_PATH=$1
-GIT_BRANCH_NAME=$2
+BRANCH_NAME=$2
 REPO_NAME=$3
 
 if [[ -z "${GIT_REPO_PATH}" ]]; then
   echo -e "Path to local Git repository not provided!\nUsage: $(basename "$0") git-path\nAs an alternative you can also use the interactive setup script: setup-interactive.sh"
   exit 1
 fi
-if [[ -z "${GIT_BRANCH_NAME}" ]]; then
-  GIT_BRANCH_NAME=main
+if [[ -z "${BRANCH_NAME}" ]]; then
+  BRANCH_NAME=main
 fi
 if [[ -z "${REPO_NAME}" ]]; then
   REPO_NAME=$(basename "$GIT_REPO_PATH")
@@ -28,6 +28,7 @@ MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cp "$MY_DIR/open-repo.sh" "$HOME/open-repo.sh"
 chmod +x "$HOME/open-repo.sh"
 
+# Go to repo ...
 # shellcheck source=open-repo.sh
 if ! source "$HOME/open-repo.sh" "${GIT_REPO_PATH}"
 then
@@ -35,12 +36,13 @@ then
   exit 1
 fi
 
-if [[ ! $(git branch --list "${GIT_BRANCH_NAME}") ]]; then
-  echo "Git branch '${GIT_BRANCH_NAME}' does not exist!"
+if [[ ! $(git branch --list "${BRANCH_NAME}") ]]; then
+  echo "Git branch '${BRANCH_NAME}' does not exist!"
   exit 1
 fi
 
 # Configure git repository
+# shellcheck source=configure-git.sh
 source "$MY_DIR/configure-git.sh"
 
 # Setup scripts for Termux:Widget and Termux:Tasker
@@ -66,4 +68,5 @@ chmod +x "$HOME"/.termux/tasker/*.sh
 cd "$MY_DIR" || exit 1
 rm -r "$MY_DIR/temp"
 
+echo ""
 echo "Setup auto-sync of '${REPO_NAME}' was successful! (multi-repo setup)"

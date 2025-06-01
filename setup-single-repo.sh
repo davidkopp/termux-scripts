@@ -5,10 +5,10 @@
 # $2: git branch name (optional, default "main")
 
 GIT_REPO_PATH=$1
-GIT_BRANCH_NAME=$2
+BRANCH_NAME=$2
 
-if [[ -z "${GIT_BRANCH_NAME}" ]]; then
-  GIT_BRANCH_NAME=main
+if [[ -z "${BRANCH_NAME}" ]]; then
+  BRANCH_NAME=main
 fi
 
 ###########################################
@@ -27,10 +27,11 @@ if [[ -e "$HOME/repo.conf" ]]; then
     exit 1
   fi
 
+  # Go to repo ...
   # shellcheck source=open-repo.sh
   if ! source "$HOME/open-repo.sh"
   then
-      echo "Open repo with path defined in '"$HOME"/repo.conf' failed!"
+      echo "Open repo with path defined in '$HOME/repo.conf' failed!"
       exit 1
   fi
 # Otherwise create new config file
@@ -49,12 +50,13 @@ else
   exit 1
 fi
 
-if [[ ! $(git branch --list "${GIT_BRANCH_NAME}") ]]; then
-  echo "Git branch '${GIT_BRANCH_NAME}' does not exist!"
+if [[ ! $(git branch --list "${BRANCH_NAME}") ]]; then
+  echo "Git branch '${BRANCH_NAME}' does not exist!"
   exit 1
 fi
 
 # Configure git repository
+# shellcheck source=configure-git.sh
 source "$MY_DIR/configure-git.sh"
 
 # Setup scripts for Termux:Widget
@@ -71,4 +73,5 @@ chmod +x "$HOME"/.termux/tasker/*.sh
 
 REPO_NAME=$(basename "$GIT_REPO_PATH")
 
+echo ""
 echo "Setup auto-sync of '${REPO_NAME}' was successful! (single-repo setup)"

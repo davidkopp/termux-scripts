@@ -93,6 +93,42 @@ git clone https://github.com/davidkopp/termux-scripts.git
 cd termux-scripts
 ```
 
+### Setup git-worktree
+
+We need to use the shared storage so Android apps will be able to access the folder. However, using the shared storage has also some disadvantages. See the Termux Wiki page [Internal and external storage](https://wiki.termux.com/wiki/Internal_and_external_storage) for more information.
+I personally had the issue that Git was only able to execute one command on a git repository located on the shared storage and the following commands failed with an error
+
+> Unable to read current working directory: No such file or directory
+
+A solution is to use [git-worktree](https://git-scm.com/docs/git-worktree). That means we place the git repository in the local Termux storage as a bare repository and place the worktree in the shared storage.
+
+The script `setup-interactive.sh` can set up everything for you.
+Here are the relevant commands that can be used to set it up manually:
+
+- Clone repo as bare:
+
+  ```sh
+  cd $HOME
+  GIT_REPO_URL= # fill in your repository URL
+  REPO_NAME= # repo name is optional, I use the suffix `.git` to know later that it is a bare git repository (e.g. "notes.git")
+  git clone --bare --depth=1 ${GIT_REPO_URL} ${REPO_NAME}
+  cd ${REPO_NAME}
+  # workaround: by default bare repos don't fetch remote branches
+  git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  ```
+
+- Add git-worktree in detached mode (we don't want to create a new branch):
+
+  ```sh
+  # specify a path in shared storage where you want to store your worktree
+  PATH_TO_REPO=~/storage/shared/git/notes
+  git worktree add --detach ${PATH_TO_REPO}
+  cd ${PATH_TO_REPO}
+  git switch main
+  git fetch origin
+  git branch --set-upstream-to=origin/main
+  ```
+
 ### Setup sync
 
 _Note: During the setup some changes are made to your git configuration. If you want other options, modify the script 'configure-git.sh'._
